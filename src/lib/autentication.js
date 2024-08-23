@@ -16,8 +16,6 @@ async function autenticacaoGlobal(email, senha) {
         console.error("Erro ao buscar dados:", error);
         throw error; // Lança o erro para ser tratado por quem chamar o método
     }
-
-    console.log(loginGeral)
 }
 
 export default {
