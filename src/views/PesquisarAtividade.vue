@@ -93,20 +93,28 @@ import AdicionarAtividade from '@/components/AdicionarAtividade.vue';
 import AtividadeComuns from '@/components/AtividadeComuns.vue';
 import { ref, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
+import axios from 'axios';
+import auth from '../lib/autentication'
 
 
 const myModal = ref(null);
 const atividades = ref([]);
 
-onMounted(() => {
+onMounted( async () => {
   //Inicializa o modal do Bootstrap quando o componente é montado.
   myModal.value = new Modal(document.getElementById('atividadePopup'));
 
   // Carregar atividades do localStorage se disponíveis  e atualiza a variável atividades.
-  const storedAtividades = localStorage.getItem('atividades');
-  if (storedAtividades) {
-    atividades.value = JSON.parse(storedAtividades);
-  }
+  const response = await axios.put(
+        `http://localhost:8080/usuario/${auth.loginGeral.data.usuario.matricula}`,
+        updateDTO,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.loginGeral.data.token}`
+          }
+        }
+      );
+      console.log('atualização realizado com sucesso', response)
 });
 
 //Exibe o modal quando o botão "Adicionar atividade" é clicado.
@@ -116,11 +124,24 @@ const showPopup = () => {
   }
 };
 
-const atualizarAtividades = (novaAtividade) => {
-  //Adiciona a nova atividade ao array atividades.
-  atividades.value.push(novaAtividade);
-  //Atualiza o localStorage com as atividades atuais.
-  localStorage.setItem('atividades', JSON.stringify(atividades.value));
+const atualizarAtividades = async (formData) => {
+  try {
+  const response = await axios.post(
+    `http://localhost:8080/atividade`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${auth.loginGeral.data.token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  );
+
+  console.log('Atividade adicionada com sucesso', response);
+} catch (error) {
+  // Aqui você pode lidar com o erro, exibir uma mensagem, etc.
+  console.error('Erro ao adicionar atividade', error);
+}
 };
 </script>
 

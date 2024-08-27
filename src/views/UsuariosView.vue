@@ -27,7 +27,7 @@
                     <div class="mb-3">
                         <label for="password" class="form-label">Senha</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="password" required>
+                            <input type="password" class="form-control" id="password" required minlength="6">
                         </div>
                     </div>
                     <div class="col-auto mb-3">
