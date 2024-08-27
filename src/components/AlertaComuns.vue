@@ -2,7 +2,6 @@
 <!-- HTML                                                                   -->
 <!-- ---------------------------------------------------------------------- -->
 <template>
-
 <div class="alert alert-danger text-center" role="alert">
   {{ props.msgError }}
 </div>

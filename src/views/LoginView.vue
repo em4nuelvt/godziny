@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
     <AlertaComuns :msgError="msgError" class="alert-comuns" v-if="alertaLogin" data-aos="fade-down" data-aos-duration="300"/>
+=======
+  <AlertaComuns :msgError="msgError" v-if="alertaLogin"/>
+>>>>>>> d922e3d5bf62dd444c38369b284efe2e82e01a70
   <div class="d-flex align-items-center py-4 h-100">
     <main class="w-100 m-auto form-container">
       <form>
