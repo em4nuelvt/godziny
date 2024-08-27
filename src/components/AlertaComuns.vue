@@ -2,16 +2,27 @@
 <!-- HTML                                                                   -->
 <!-- ---------------------------------------------------------------------- -->
 <template>
-    <h1>DashBoard</h1>
+
+<div class="alert alert-danger text-center" role="alert">
+  {{ props.msgError }}
+</div>
 </template>
 
 <!-- ---------------------------------------------------------------------- -->
 <!-- JavaScript                                                             -->
 <!-- ---------------------------------------------------------------------- -->
 <script setup>
+import {defineProps} from 'vue';
+const props = defineProps({
+  msgError: {
+    type: String,
+    required: true
+  }
+});
 </script>
 
 <!-- ---------------------------------------------------------------------- -->
 <!-- CSS                                                                    -->
 <!-- ---------------------------------------------------------------------- -->
-<style scoped></style>
+<style scoped>
+</style>

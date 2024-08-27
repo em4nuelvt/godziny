@@ -41,10 +41,10 @@
             <li class="sidebar-item">
                 <RouterLink to="/categorias" class="sidebar-link" active-class="active-link">Categorias</RouterLink>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item" v-if="auth.loginGeral.data.usuario.tipo !== 'NORMAL'">
               <RouterLink to="/usuarios" class="sidebar-link" active-class="active-link">Usuários</RouterLink>
             </li>
-            <li class="sidebar-item">
+            <li class="sidebar-item" v-if="auth.loginGeral.data.usuario.tipo !== 'NORMAL'">
               <RouterLink to="/cursos" class="sidebar-link" active-class="active-link">Cursos</RouterLink>
             </li>
           </ul>
@@ -101,6 +101,7 @@ import { ref } from 'vue';
 import { RouterLink, RouterView,useRouter } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import auth from './lib/autentication';
 
 const route = useRoute();
 

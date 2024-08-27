@@ -8,7 +8,7 @@
       <div class="col">
         <h2 class="text-secondary">Atividades</h2>
       </div>
-      
+
       <div class="col m-2">
         <div class="text-end">
           <!-- Button trigger modal -->
@@ -31,9 +31,9 @@
           <label class="text-secondary">Ativo</label>
           <select class="form-select form-select" aria-label="Small select example">
             <option selected disabled>Selecionar</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option value="1">categorias</option>
+            <option value="2">cursos</option>
+            <option value="3">usuarios</option>
           </select>
         </div>
       </form>
@@ -52,12 +52,29 @@
         <div class="col" v-else>
           <div class="row">
             <div class="col-3 p-3 mt" v-for="(atividade, index) in atividades" :key="index">
-              <AtividadeComuns v-bind="atividade"/>
+              <AtividadeComuns data-bs-toggle="modal" data-bs-target="#exampleModal" v-bind="atividade" />
             </div>
           </div>
         </div>
       </div>
-
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row mt-5 justify-content-end">
         <div class="col-auto">
           <PaginacaoComuns />
@@ -67,15 +84,16 @@
   </div>
 </template>
 
-  <!-- ---------------------------------------------------------------------- -->
-  <!-- JavaScript                                                             -->
-  <!-- ---------------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------------- -->
+<!-- JavaScript                                                             -->
+<!-- ---------------------------------------------------------------------- -->
 <script setup>
 import PaginacaoComuns from '@/components/PaginacaoComuns.vue';
 import AdicionarAtividade from '@/components/AdicionarAtividade.vue';
 import AtividadeComuns from '@/components/AtividadeComuns.vue';
 import { ref, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
+
 
 const myModal = ref(null);
 const atividades = ref([]);
@@ -110,7 +128,7 @@ const atualizarAtividades = (novaAtividade) => {
 <!-- CSS                                                                    -->
 <!-- ---------------------------------------------------------------------- -->
 <style scoped>
-  * {
-    color: #464545;
-  }
+* {
+  color: #464545;
+}
 </style>
