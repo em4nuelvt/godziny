@@ -20,7 +20,7 @@
               <label for="nome" class="form-label">Categoria da Atividade </label>
               <select class="form-select form-select" aria-label="Small select example" v-model="categoriaAtividade">
                 <option selected disabled>Selecionar</option>
-                <option value="7b1c2f69-4f9a-4e8a-b3ad-8b2d3c2b5b6e">categorias</option>
+                <option value="022fe391-a1d7-4766-846b-6701e2843907">categorias</option>
                 <option value="2">.</option>
                 <option value="3">.</option>
               </select>
@@ -38,9 +38,11 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits} from 'vue';
 import { Modal } from 'bootstrap';
-import auth from '../lib/autentication';
+// import auth from '../lib/autentication';
+// import axios from "axios";
+
 
 const tituloAtividade = ref('');
 const categoriaAtividade = ref('');
@@ -64,47 +66,25 @@ const mudancaArquivo = (event) => {
 
 const adicionarAtividade = async () => {
  
-    // Cria o objeto DTO
-
-
-    // Cria o FormData a partir do objeto DTO
-    const formData = new FormData();
-    if (file.value) {
-      formData.append('file', file.value);
-    }
-
-    // Adiciona o JSON ao FormData
-    const dto = JSON.stringify({
+  const atividadeDto = {
       id: "",
-      usuarioId: auth.loginGeral.data.usuario.matricula,
-      categoriaId: categoriaAtividade.value,
-      titulo: tituloAtividade.value,
+      usuarioId: 2,
+      categoriaId: "c3d1e9b4-9c2e-4b6e-91f8-a5d6f2a1c3b4",
+      titulo: "cheba",
       createdAt: new Date().toISOString(),
-      status: statusAtividade.value,
+      status: "SIMULANDO",
       arquivoId: "",
-      cargaHoraria: cargaHoraria.value,
-      comentario: comentario.value
-    });
+      cargaHoraria: null,
+      comentario: null,
+    };
 
-    formData.append('dto', dto); // Adiciona o JSON diretamente como texto
+    let formData = new FormData();
+    formData.append("arquivo", file.value);
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(atividadeDto)], { type: "application/json" })
+    );
 
-    console.log({
-      id: "",
-      usuarioId: auth.loginGeral.data.usuario.matricula,
-      categoriaId: categoriaAtividade.value,
-      titulo: tituloAtividade.value,
-      createdAt: new Date().toISOString(),
-      status: statusAtividade.value,
-      arquivoId: "",
-      cargaHoraria: cargaHoraria.value,
-      comentario: comentario.value
-    });
-
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${typeof (value)}`);
-    });
-
-   
 
     // Emite o evento atividade-adicionada com o novo objeto.
     emit('atividade-adicionada', formData);
