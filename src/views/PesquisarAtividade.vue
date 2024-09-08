@@ -100,21 +100,48 @@ import auth from '../lib/autentication'
 const myModal = ref(null);
 const atividades = ref([]);
 
-onMounted( async () => {
+onMounted(async () => {
   //Inicializa o modal do Bootstrap quando o componente é montado.
   myModal.value = new Modal(document.getElementById('atividadePopup'));
 
-  // Carregar atividades do localStorage se disponíveis  e atualiza a variável atividades.
-  const response = await axios.put(
-        `http://localhost:8080/usuario/${auth.loginGeral.data.usuario.matricula}`,
-        updateDTO,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.loginGeral.data.token}`
-          }
-        }
-      );
-      console.log('atualização realizado com sucesso', response)
+  const pageableParams = {
+    page: 0, // número da página
+    size: 10, // itens por página
+    sort: "titulo,asc", // ordenação
+  };
+
+  const params = new URLSearchParams(pageableParams).toString();
+  // Carregar atividades do backend  e atualiza a variável atividades.
+  try {
+    // Supondo que `updateDTO` seja um objeto com os parâmetros que deseja enviar
+    const updateDTO = {
+      usuarioNome: null,
+      titulo: null,
+      status: null,
+      categoria: null
+      // Adicione mais parâmetros conforme necessário
+    };
+
+    // Faz a requisição GET com os parâmetros incluídos na URL
+    const response = await axios.post(
+      `http://localhost:8080/atividade/pesquisar?${params}`, // Corrigido o uso da URL com template literal
+      updateDTO,
+      {
+        headers: {
+          Authorization: `Bearer ${auth.loginGeral.data.token}`, // Corrigido o uso de template literal no token
+        },
+      }
+    );
+
+    // Armazena a resposta na variável
+    atividades.value = [...atividades.value, ...response.data.content];
+   console.log(atividades.value[0].titulo)
+
+    console.log('Atualização realizada com sucesso',response.data.con);
+  } catch (error) {
+    console.error('Erro ao realizar a atualização', error);
+  }
+
 });
 
 //Exibe o modal quando o botão "Adicionar atividade" é clicado.
@@ -126,22 +153,23 @@ const showPopup = () => {
 
 const atualizarAtividades = async (formData) => {
   try {
-  const response = await axios.post(
-    `http://localhost:8080/atividade`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${auth.loginGeral.data.token}`,
-        'Content-Type': 'multipart/form-data'
-      }
-    }
-  );
 
-  console.log('Atividade adicionada com sucesso', response);
-} catch (error) {
-  // Aqui você pode lidar com o erro, exibir uma mensagem, etc.
-  console.error('Erro ao adicionar atividade', error);
-}
+    const response = await axios.post(
+      'http://localhost:8080/atividade',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${auth.loginGeral.data.token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log('Atividade adicionada com sucesso', response);
+  } catch (error) {
+    // Aqui você pode lidar com o erro, exibir uma mensagem, etc.
+    console.error('Erro ao adicionar atividade', error);
+  }
 };
 </script>
 
